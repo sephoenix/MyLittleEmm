@@ -60,29 +60,6 @@ User details:
 
 
 
-## Routes
-
-| Name                 | Method | Endpoint                      | Description                                      | Body                                  | Redirects               |
-| -------------------- | ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | ----------------------- |
-| Homepage             | GET    | /                             | See the main page                                |                                       |                         |
-| Register form        | GET    | /auth/register                | See the form to register                         |                                       |                         |
-| Register             | POST   | /auth/register                | Register a user                                  | { mail, password }                    | /user-profile           |
-| Log in form          | GET    | /auth/login                   | See the form to log in                           |                                       |                         |
-| Log in               | POST   | /auth/login                   | Log in the user                                  | { mail, password }                    | /zoo                    |
-| Log out              | POST   | /auth/logout                  | Log out a user                                   |                                       | /                       |
-| User profile         | GET    | /user-profile                 | See the profile page with editable form          |                                       |                         |
-| User profile edited  | POST   | /user-profile/edit            | Send user's data changed                         | { user_email, password }              | /user-profile           |
-| User page list       | GET    | /user-pages-list               | See user's pages                                  |                                       |                         |
-| Other diaries                 | GET    | /otherdiaries                          | See all the diaries of all users                    |                                       |                         |
-| Page add form         | GET    | /page/add                      | See form to upload a new page                     |                                       |                         |
-| Page add              | POST   | /page/add                      | Upload a page to user’s diary                | { date, what, etc. }      | /user-pages-list/{pageid} |
-| Page profile          | GET    | /diary/{pageid}                  | See the profile page with editable form          |                                       |                         |
-| Page edit form        | GET    | /diary/{pageid}/edit             | See edit form with page's information   |                                       |                         |
-| Page edit             | POST   | /{userid}/diaries/{pageid}/edit    | Add page's new information                        | { date, what, etc. }      | /user-pages-list/{pageid} |
-| Page delete           | POST   | /{userid}/diaries/{pageid}/delete  | Delete page from user's diary                |                                       | /user-pages-list         |                       |
-
-
-
 ## Models
 
 Page model
@@ -117,23 +94,6 @@ User model
 
 
 
-## Links
-
-### MyLittleeM project
-
-[Deployed project](...)
-
-### Wireframes
-
-[Balsamiq with Wireframes](https://balsamiq.cloud/s9ju8cz/pdg1zwn/r947B)                 
-
-### Slides
-
-[Project slides](...)
-![image]()
-
-This repository is the REST API for the [frontend repository XXX](link). It allows users to...
-
 ### setup .env
 
 you need to setup the `.env` like `.env.sample`
@@ -158,15 +118,40 @@ npm run start
 ## REST API endpoints
 
 ​
-| Name | Method | Endpoint | Auth | Req.body | Redirects |
-|-------|--------|-------------|------|---------------------|-----------|
-| Home | GET | / | Yes | | |
-| Login | POST | /auth/login | No | { email, password } | / |
+| Name                 | Method | Endpoint                      | Description                                      | Body                                  | Redirects               |
+| -------------------- | ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | ----------------------- |
+| Homepage             | GET    | /                             | See the main page                                |                                       |                         |
+| Register form        | GET    | /auth/register                | See the form to register                         |                                       |                         |
+| Register             | POST   | /auth/register                | Register a user                                  | { mail, password }                    | /user-profile           |
+| Log in form          | GET    | /auth/login                   | See the form to log in                           |                                       |                         |
+| Log in               | POST   | /auth/login                   | Log in the user                                  | { mail, password }                    | /zoo                    |
+| Log out              | POST   | /auth/logout                  | Log out a user                                   |                                       | /                       |
+| User profile         | GET    | /user-profile                 | See the profile page with editable form          |                                       |                         |
+| User profile edited  | POST   | /user-profile/edit            | Send user's data changed                         | { user_email, password }              | /user-profile           |
+| User page list       | GET    | /user-pages-list               | See user's pages                                  |                                       |                         |
+| Other diaries                 | GET    | /otherdiaries                          | See all the diaries of all users                    |                                       |                         |
+| Page add form         | GET    | /page/add                      | See form to upload a new page                     |                                       |                         |
+| Page add              | POST   | /page/add                      | Upload a page to user’s diary                | { date, what, etc. }      | /user-pages-list/{pageid} |
+| Page profile          | GET    | /diary/{pageid}                  | See the profile page with editable form          |                                       |                         |
+| Page edit form        | GET    | /diary/{pageid}/edit             | See edit form with page's information   |                                       |                         |
+| Page edit             | POST   | /{userid}/diaries/{pageid}/edit    | Add page's new information                        | { date, what, etc. }      | /user-pages-list/{pageid} |
+| Page delete           | POST   | /{userid}/diaries/{pageid}/delete  | Delete page from user's diary                |                                       | /user-pages-list         |                       |
 ​
 ​
 
 ## Links
 
-- [Slides]()
-- [Frontend repository]()
-- [Deployed version]()
+### MyLittleeM project
+
+[Deployed project](...)
+
+### Wireframes
+
+[Balsamiq with Wireframes](https://balsamiq.cloud/s9ju8cz/pdg1zwn/r947B)                 
+
+### Slides
+
+[Project slides](...)
+![image]()
+
+This repository is the REST API for the [frontend repository XXX](link). It allows users to...
