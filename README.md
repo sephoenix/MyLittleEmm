@@ -1,6 +1,6 @@
 # Project's name
 
-My little eM
+My little eMM
 
 ## Description
 
