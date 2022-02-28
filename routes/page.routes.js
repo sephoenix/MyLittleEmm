@@ -24,4 +24,15 @@ router.get('/pages', async (req, res, next) => {
   }
 });
 
+router.get('/pages/:pageId', (req, res, next) => {
+  const { pageId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(pageId)) {
+    res.status(400).json({ message: 'This page doesnt exists' });
+    return;
+  }
+  Page.findById(pageId)
+    .then(page => res.status(200).json(page))
+    .catch(err => res.json(err));
+});
+
 module.exports = router;
