@@ -15,4 +15,13 @@ router.post('/pages', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
+router.get('/pages', async (req, res, next) => {
+  try {
+    const pages = await Page.find();
+    res.json({ pages });
+  } catch (e) {
+    res.json(e);
+  }
+});
+
 module.exports = router;
