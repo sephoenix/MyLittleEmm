@@ -35,4 +35,15 @@ router.get('/pages/:pageId', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
+router.put('/pages/:pageId', (req, res, next) => {
+  const { pageId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(pageId)) {
+    res.status(400).json({ message: 'This page doesnt exists' });
+    return;
+  }
+  Page.findByIdAndUpdate(pageId, req.body, { new: true })
+    .then(updatedPage => res.json(updatedPage))
+    .catch(err => res.json(err));
+});
+
 module.exports = router;
