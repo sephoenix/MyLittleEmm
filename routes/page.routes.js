@@ -46,4 +46,15 @@ router.put('/pages/:pageId', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
+router.delete('/pages/:pageId', (req, res, next) => {
+  const { pageId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(pageId)) {
+    res.status(400).json({ message: 'This page doesnt exists' });
+    return;
+  }
+  Page.findByIdAndDelete(pageId)
+    .then(() => res.json({ message: `Diary with ${pageId} is removed successfully` }))
+    .catch(err => res.json(err));
+});
+
 module.exports = router;
