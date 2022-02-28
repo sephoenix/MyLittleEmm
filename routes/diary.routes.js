@@ -32,4 +32,15 @@ router.get('/diaries/:diaryId', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
+router.put('/diaries/:diaryId', (req, res, next) => {
+  const { diaryId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(diaryId)) {
+    res.status(400).json({ message: 'This diary doesnt exists' });
+    return;
+  }
+  Diary.findByIdAndUpdate(diaryId, req.body, { new: true })
+    .then(updatedDiary => res.json(updatedDiary))
+    .catch(err => res.json(err));
+});
+
 module.exports = router;
