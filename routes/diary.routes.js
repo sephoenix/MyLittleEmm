@@ -43,4 +43,15 @@ router.put('/diaries/:diaryId', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
+router.delete('/diaries/:diaryId', (req, res, next) => {
+  const { diaryId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(diaryId)) {
+    res.status(400).json({ message: 'This diary doesnt exists' });
+    return;
+  }
+  Diary.findByIdAndDelete(diaryId)
+    .then(() => res.json({ message: `Diary with ${diaryId} is removed successfully` }))
+    .catch(err => res.json(err));
+});
+
 module.exports = router;
