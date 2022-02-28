@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const pageSchema = new Schema({
-  date: Date,
+  date: String,
   type: String,
   enum: ['Info', 'Special Date', 'Anecdote'],
   diary: { type: Schema.Types.ObjectId, ref: 'Diary' },
-  whorWrites: String,
+  whoWrites: String,
   enum: ['Dad', 'Mom'],
   babyWeight: Number,
   babyHeight: Number,

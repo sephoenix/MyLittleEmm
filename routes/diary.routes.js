@@ -12,4 +12,13 @@ router.post('/diaries', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
+/* router.get('/diaries', async (req, res, next) => {
+  try {
+    const diaries = await Diary.find();
+    res.json({ diaries });
+  } catch (e) {
+    res.json(e);
+  }
+}); */
+
 module.exports = router;
