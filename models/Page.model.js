@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const pageSchema = new Schema({
-  date: String,
+  date: String, //TODO Date
   type: String,
   enum: ['Info', 'Special Date', 'Anecdote'],
   diary: { type: Schema.Types.ObjectId, ref: 'Diary' },
