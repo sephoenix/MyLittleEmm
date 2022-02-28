@@ -21,4 +21,15 @@ router.get('/diaries', async (req, res, next) => {
   }
 });
 
+router.get('/diaries/:diaryId', (req, res, next) => {
+  const { diaryId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(diaryId)) {
+    res.status(400).json({ message: 'This diary doesnt exists' });
+    return;
+  }
+  Diary.findById(diaryId)
+    .then(diary => res.status(200).json(diary))
+    .catch(err => res.json(err));
+});
+
 module.exports = router;
