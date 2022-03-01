@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const { isAuthenticated } = require('../middleware/jwt.middleware');
 
 const Diary = require('../models/Diary.model');
 const Page = require('../models/Page.model');
@@ -13,16 +14,19 @@ router.post('/pages', (req, res, next) => {
 });
 
 router.get('/:diaryId/pages', async (req, res, next) => {
-  req.params // get pages where diary is this diaryId
+  const { diaryId } = req.params;
+
+  // get pages where diary is this diaryId
   try {
+    await Diary.find(diaryId);
     const pages = await Page.find();
-    res.json({ pages });
+    res.status(201).json({ pages });
   } catch (e) {
     res.json(e);
   }
 });
 
-router.get('/pages/:pageId', (req, res, next) => {
+router.get('/:diaryId/pages/:pageId', (req, res, next) => {
   const { pageId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(pageId)) {
     res.status(400).json({ message: 'This page doesnt exists' });
@@ -33,7 +37,7 @@ router.get('/pages/:pageId', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
-router.put('/pages/:pageId', (req, res, next) => {
+router.put('/:diaryId/pages/:pageId', (req, res, next) => {
   const { pageId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(pageId)) {
     res.status(400).json({ message: 'This page doesnt exists' });
@@ -44,15 +48,16 @@ router.put('/pages/:pageId', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
-router.delete('/pages/:pageId', (req, res, next) => {
+router.delete('/:diaryId/pages/:pageId', (req, res, next) => {
   const { pageId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(pageId)) {
     res.status(400).json({ message: 'This page doesnt exists' });
     return;
   }
   Page.findByIdAndDelete(pageId)
-    .then(() => res.json({ message: `Diary with ${pageId} is removed successfully` }))
+    .then(() => res.json({ message: `Page with ${pageId} is removed successfully` }))
     .catch(err => res.json(err));
+  //TODO redirect
 });
 
 module.exports = router;
