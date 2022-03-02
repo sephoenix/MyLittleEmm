@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const { isAuthenticated } = require('../middleware/jwt.middleware');
 
 const Diary = require('../models/Diary.model');
 const Page = require('../models/Page.model');
 
-router.post('/diaries', (req, res, next) => {
+router.post('/diaries', isAuthenticated, (req, res, next) => {
   const { name } = req.body;
-  Diary.create({ name, Page: [] })
+  const userId = req.payload._id;
+  Diary.create({ name, owner: userId /* Page: [] */ })
     .then(response => res.json(response))
     .catch(err => res.json(err));
 });
