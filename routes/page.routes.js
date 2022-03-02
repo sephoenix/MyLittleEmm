@@ -39,7 +39,7 @@ router.get('/diaries/:diaryId/pages/:pageId', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
-router.put('/diaries/:diaryId/pages/:pageId', (req, res, next) => {
+router.put('/diaries/:diaryId/pages/:pageId/edit', (req, res, next) => {
   const { pageId } = req.params;
   const { diaryId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(pageId)) {
@@ -51,7 +51,7 @@ router.put('/diaries/:diaryId/pages/:pageId', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
-router.delete('/diaries/:diaryId/pages/:pageId', (req, res, next) => {
+router.delete('/diaries/:diaryId/pages/:pageId/delete', (req, res, next) => {
   const { pageId } = req.params;
   const { diaryId } = req.params;
 

@@ -10,7 +10,7 @@ router.post('/diaries', isAuthenticated, (req, res, next) => {
   const { name } = req.body;
   const userId = req.payload._id;
   Diary.create({ name, owner: userId /* Page: [] */ })
-    .then(response => res.json(response))
+    .then(response => res.status(201).json(response))
     .catch(err => res.json(err));
 });
 
@@ -34,7 +34,7 @@ router.get('/diaries/:diaryId', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
-router.put('/diaries/:diaryId', (req, res, next) => {
+router.put('/diaries/:diaryId/edit', (req, res, next) => {
   const { diaryId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(diaryId)) {
     res.status(400).json({ message: 'This diary doesnt exists' });
@@ -45,7 +45,7 @@ router.put('/diaries/:diaryId', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
-router.delete('/diaries/:diaryId', (req, res, next) => {
+router.delete('/diaries/:diaryId/delete', (req, res, next) => {
   const { diaryId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(diaryId)) {
     res.status(400).json({ message: 'This diary doesnt exists' });
