@@ -16,23 +16,33 @@ router.get('/:userId', async (req, res, next) => {
 
   router.put('/:userId/edit', async (req, res, next) => {
     const { userId } = req.params;
-    try {
-      const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
-      res.status(200).json(updatedUser);
-    } catch (e) {
-      err => res.json(err);
+    const { id } = req.payload._id;
+    if (id !== userId) {
+      return;
+    } else {
+      try {
+        const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
+        res.status(200).json(updatedUser);
+      } catch (e) {
+        err => res.json(err);
+      }
     }
   });
 
   router.delete('/:userId/delete', (req, res, next) => {
     const { userId } = req.params;
+    const { id } = req.payload._id;
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       res.status(400).json({ message: 'This user doesnt exists' });
       return;
     }
-    User.findByIdAndDelete(userId)
-      .then(() => res.json({ message: `User with ${userId} is removed successfully` }))
-      .catch(err => res.json(err));
+    if (id !== userId) {
+      return;
+    } else {
+      User.findByIdAndDelete(userId)
+        .then(() => res.json({ message: `User with ${userId} is removed successfully` }))
+        .catch(err => res.json(err));
+    }
   });
 });
 
