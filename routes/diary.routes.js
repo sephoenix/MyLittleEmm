@@ -17,7 +17,7 @@ router.post('/diaries', isAuthenticated, (req, res, next) => {
 router.get('/diaries', async (req, res, next) => {
   try {
     const diaries = await Diary.find();
-    res.json({ diaries });
+    res.json(diaries);
   } catch (e) {
     res.json(e);
   }
@@ -34,8 +34,9 @@ router.get('/diaries/:diaryId', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
-router.put('/diaries/:diaryId/edit', (req, res, next) => {
-  const { diaryId } = req.params;
+router.put('/diaries/:diaryId/edit', isAuthenticated, (req, res, next) => {
+  const { diaryId } = req.payload._id;
+
   if (!mongoose.Types.ObjectId.isValid(diaryId)) {
     res.status(400).json({ message: 'This diary doesnt exists' });
     return;
