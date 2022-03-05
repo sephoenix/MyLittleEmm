@@ -6,7 +6,7 @@ const { isAuthenticated } = require('../middleware/jwt.middleware');
 const Diary = require('../models/Diary.model');
 const Page = require('../models/Page.model');
 
-router.post('/diaries/:diaryId/pages', (req, res, next) => {
+router.post('/diaries/:diaryId/add', (req, res, next) => {
   const { diaryId } = req.params;
   const { date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, content } = req.body;
   Page.create({ date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, diary: diaryId, content })
@@ -16,16 +16,15 @@ router.post('/diaries/:diaryId/pages', (req, res, next) => {
 
 router.get('/diaries/:diaryId/pages', async (req, res, next) => {
   const { diaryId } = req.params;
-
   try {
-    const pages = await Page.find({ diary: diaryId });
-    res.status(201).json({ pages });
+    const pages = await Page.find({ diary: diaryId }).populate('diary');
+    res.json(pages);
   } catch (e) {
     res.json(e);
   }
 });
 
-router.get('/diaries/:diaryId/pages/:pageId', (req, res, next) => {
+router.get('/diaries/:diaryId/:pageId', (req, res, next) => {
   const { pageId } = req.params;
   const { diaryId } = req.params;
   console.log(req.params);
@@ -39,7 +38,7 @@ router.get('/diaries/:diaryId/pages/:pageId', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
-router.put('/diaries/:diaryId/pages/:pageId/edit', (req, res, next) => {
+router.put('/diaries/:diaryId/:pageId/edit', (req, res, next) => {
   const { pageId } = req.params;
   const { diaryId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(pageId)) {
@@ -51,7 +50,7 @@ router.put('/diaries/:diaryId/pages/:pageId/edit', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
-router.delete('/diaries/:diaryId/pages/:pageId/delete', (req, res, next) => {
+router.delete('/diaries/:diaryId/:pageId/delete', (req, res, next) => {
   const { pageId } = req.params;
   const { diaryId } = req.params;
 
