@@ -42,7 +42,7 @@ router.put('/diaries/:diaryId/edit', isAuthenticated, (req, res, next) => {
     res.status(400).json({ message: 'This diary doesnt exists' });
     return;
   }
-  Diary.findByIdAndUpdate(diaryId, { name }, { new: true })
+  Diary.findByIdAndUpdate({ _id: diaryId }, { name }, { new: true })
     .then(updatedDiary => res.json(updatedDiary))
     .catch(err => res.json(err));
 });
