@@ -6,12 +6,17 @@ const { isAuthenticated } = require('../middleware/jwt.middleware');
 const Diary = require('../models/Diary.model');
 const Page = require('../models/Page.model');
 
-router.post('/diaries/:diaryId/add', (req, res, next) => {
+router.post('/diaries/:diaryId/pages/add', async (req, res, next) => {
   const { diaryId } = req.params;
   const { date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, content } = req.body;
-  Page.create({ date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, diary: diaryId, content })
-    .then(response => res.status(201).json(response))
-    .catch(err => res.json(err));
+  console.log('Recieving:', req.params, req.body)
+  try {
+    const newPage = await Page.create({ date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, diary: diaryId, content });
+    console.log('New page backend', newPage);
+    res.status(201).json(newPage)
+  } catch(error){
+    res.status(500).json(error);
+  }
 });
 
 router.get('/diaries/:diaryId/pages', async (req, res, next) => {
