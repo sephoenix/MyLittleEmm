@@ -9,12 +9,12 @@ const Page = require('../models/Page.model');
 router.post('/diaries/:diaryId/pages/add', async (req, res, next) => {
   const { diaryId } = req.params;
   const { date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, content } = req.body;
-  console.log('Recieving:', req.params, req.body)
+  console.log('Recieving:', req.params, req.body);
   try {
     const newPage = await Page.create({ date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, diary: diaryId, content });
     console.log('New page backend', newPage);
-    res.status(201).json(newPage)
-  } catch(error){
+    res.status(201).json(newPage);
+  } catch (error) {
     res.status(500).json(error);
   }
 });
@@ -32,7 +32,6 @@ router.get('/diaries/:diaryId/pages', async (req, res, next) => {
 router.get('/diaries/:diaryId/:pageId', (req, res, next) => {
   const { pageId } = req.params;
   const { diaryId } = req.params;
-  console.log(req.params);
 
   if (!mongoose.Types.ObjectId.isValid(pageId)) {
     res.status(400).json({ message: 'This page doesnt exists' });
