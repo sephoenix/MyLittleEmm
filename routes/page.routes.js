@@ -43,7 +43,7 @@ router.get('/:pageId', async (req, res, next) => {
   }
 });
 
-router.put('/diaries/:diaryId/:pageId/edit', async (req, res, next) => {
+router.put('/:pageId/edit', async (req, res, next) => {
   const { pageId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(pageId)) {
     res.status(400).json({ message: 'This page doesnt exists' });
