@@ -34,15 +34,14 @@ router.get('/diaries/:diaryId', (req, res, next) => {
     .catch(err => res.json(err));
 });
 
-router.put('/diaries/:diaryId/edit', isAuthenticated, (req, res, next) => {
+router.put('/diaries/:diaryId/edit', (req, res, next) => {
   const { diaryId } = req.params;
-  const { name } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(diaryId)) {
     res.status(400).json({ message: 'This diary doesnt exists' });
     return;
   }
-  Diary.findByIdAndUpdate({ _id: diaryId }, { name }, { new: true })
+  Diary.findByIdAndUpdate(diaryId, req.body, { new: true })
     .then(updatedDiary => res.json(updatedDiary))
     .catch(err => res.json(err));
 });

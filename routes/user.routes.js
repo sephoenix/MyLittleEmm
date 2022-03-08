@@ -26,6 +26,7 @@ router.get('/users/:userId', async (req, res, next) => {
 
 router.put('/users/:userId/edit', isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
+  console.log(userId);
   try {
     const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
     res.status(200).json(updatedUser);
