@@ -17,9 +17,9 @@ require('./config')(app);
 app.use('/api', allRoutes);
 app.use('/api/protected', isAuthenticated, protectedRoute);
 app.use('/auth', authRouter);
-app.use('/api', diaryRouter);
-app.use('/api', pageRouter);
-app.use('/api', userRouter);
+app.use('/api/diaries', diaryRouter);
+app.use('/api/pages', pageRouter);
+app.use('/api/user', userRouter);
 
 require('./error-handling')(app);
 

@@ -6,55 +6,66 @@ const { isAuthenticated } = require('../middleware/jwt.middleware');
 const Diary = require('../models/Diary.model');
 const Page = require('../models/Page.model');
 
-router.post('/diaries', isAuthenticated, (req, res, next) => {
+router.post('/', isAuthenticated, async (req, res, next) => {
   const { name } = req.body;
   const userId = req.payload._id;
-  Diary.create({ name, owner: userId /* Page: [] */ })
-    .then(response => res.status(201).json(response))
-    .catch(err => res.json(err));
+  try {
+    const diary = await Diary.create({ name, owner: userId });
+    res.json(diary);
+  } catch (error) {
+    res.json(error);
+  }
 });
 
-router.get('/diaries', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const diaries = await Diary.find();
     res.json(diaries);
-  } catch (e) {
-    res.json(e);
+  } catch (error) {
+    res.json(error);
   }
 });
 
-router.get('/diaries/:diaryId', (req, res, next) => {
+router.get('/:diaryId', async (req, res, next) => {
   const { diaryId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(diaryId)) {
     res.status(400).json({ message: 'This diary doesnt exists' });
     return;
   }
-  Diary.findById(diaryId)
-    .then(diary => res.status(200).json(diary))
-    .catch(err => res.json(err));
-});
-
-router.put('/diaries/:diaryId/edit', (req, res, next) => {
-  const { diaryId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(diaryId)) {
-    res.status(400).json({ message: 'This diary doesnt exists' });
-    return;
+  try {
+    const diary = await Diary.findById(diaryId);
+    res.status(200).json(diary);
+  } catch (error) {
+    res.json(error);
   }
-  Diary.findByIdAndUpdate(diaryId, req.body, { new: true })
-    .then(updatedDiary => res.json(updatedDiary))
-    .catch(err => res.json(err));
 });
 
-router.delete('/diaries/:diaryId/delete', (req, res, next) => {
+router.put('/:diaryId/edit', async (req, res, next) => {
   const { diaryId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(diaryId)) {
     res.status(400).json({ message: 'This diary doesnt exists' });
     return;
   }
-  Diary.findByIdAndDelete(diaryId)
-    .then(() => res.json({ message: `Diary with ${diaryId} is removed successfully` }))
-    .catch(err => res.json(err));
+  try {
+    const diary = await Diary.findByIdAndUpdate(diaryId, req.body, { new: true });
+    res.json(diary);
+  } catch (error) {
+    res.json(error);
+  }
+});
+
+router.delete('/:diaryId/delete', async (req, res, next) => {
+  const { diaryId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(diaryId)) {
+    res.status(400).json({ message: 'This diary doesnt exists' });
+    return;
+  }
+  try {
+    await Diary.findByIdAndDelete(diaryId);
+    res.json({ message: `Diary with ${diaryId} is removed successfully` });
+  } catch (error) {
+    res.json(error);
+  }
 });
 
 module.exports = router;

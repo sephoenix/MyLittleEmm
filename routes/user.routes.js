@@ -5,46 +5,46 @@ const { isAuthenticated } = require('../middleware/jwt.middleware');
 const User = require('../models/User.model');
 const router = require('./page.routes');
 
-router.get('/users', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const user = await User.find();
     res.json(user);
-  } catch (e) {
-    res.json(e);
+  } catch (error) {
+    res.json(error);
   }
 });
 
-router.get('/users/:userId', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
   const userId = req.params;
   try {
     const user = await User.findById(userId);
     res.status(200).json(user);
-  } catch (err) {
-    err => res.json(err);
+  } catch (error) {
+    res.json(error);
   }
 });
 
-router.put('/users/:userId/edit', isAuthenticated, async (req, res, next) => {
+router.put('/:userId/edit', isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
-  console.log(userId);
   try {
     const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
     res.status(200).json(updatedUser);
-  } catch (e) {
-    err => res.json(err);
+  } catch (error) {
+    res.json(error);
   }
 });
 
-router.delete('/users/:userId/delete', isAuthenticated, (req, res, next) => {
+router.delete('/:userId/delete', isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
   if (!mongoose.Types.ObjectId.isValid(userId)) {
     res.status(400).json({ message: 'This user doesnt exists' });
     return;
   }
-
-  User.findByIdAndDelete(userId)
-    .then(() => res.json({ message: `User with ${userId} is removed successfully` }))
-    .catch(err => res.json(err));
+  try {
+    await User.findByIdAndDelete(userId).then(() => res.json({ message: `User with ${userId} is removed successfully` }));
+  } catch (error) {
+    res.json(error);
+  }
 });
 
 module.exports = router;
