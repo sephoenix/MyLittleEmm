@@ -29,17 +29,20 @@ router.get('/diaries/:diaryId/pages', async (req, res, next) => {
   }
 });
 
-router.get('/diaries/:diaryId/:pageId', (req, res, next) => {
+router.get('/pages/:pageId', async (req, res, next) => {
   const { pageId } = req.params;
-  const { diaryId } = req.params;
-
+  // const { diaryId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(pageId)) {
     res.status(400).json({ message: 'This page doesnt exists' });
     return;
   }
-  Page.find({ diary: diaryId, _id: pageId })
-    .then(page => res.status(200).json(page))
-    .catch(err => res.json(err));
+  try {
+    const page = await Page.findById(pageId).populate('diary');
+    console.log(page);
+    res.status(200).json(page)
+  } catch(error){
+    res.json(error)
+  }
 });
 
 router.put('/diaries/:diaryId/:pageId/edit', (req, res, next) => {
