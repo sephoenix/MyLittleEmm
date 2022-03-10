@@ -6,10 +6,11 @@ const { isAuthenticated } = require('../middleware/jwt.middleware');
 const Diary = require('../models/Diary.model');
 const Page = require('../models/Page.model');
 
-router.post('/add', async (req, res, next) => {
-  const { date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, content } = req.body;
+router.post('/add', isAuthenticated, async (req, res, next) => {
+  const { date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, content, diary } = req.body;
+  const diaryId = mongoose.Types.ObjectId(diary);
   try {
-    const newPage = await Page.create({ date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, /* diary: diaryId, */ content });
+    const newPage = await Page.create({ date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, diary: diaryId, content });
     console.log('New page backend', newPage);
     res.status(201).json(newPage);
   } catch (error) {
@@ -27,32 +28,19 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-<<<<<<< HEAD
 router.get('/:pageId', async (req, res, next) => {
   const { pageId } = req.params;
-
-=======
-router.get('/pages/:pageId', async (req, res, next) => {
-  const { pageId } = req.params;
   // const { diaryId } = req.params;
->>>>>>> 13502901cf647cbe82d923736447716efc301499
   if (!mongoose.Types.ObjectId.isValid(pageId)) {
     res.status(400).json({ message: 'This page doesnt exists' });
     return;
   }
   try {
-<<<<<<< HEAD
-    const page = await Page.findById(pageId);
-    res.status(200).json(page);
-  } catch (error) {
-    res.json(error);
-=======
     const page = await Page.findById(pageId).populate('diary');
     console.log(page);
     res.status(200).json(page)
   } catch(error){
     res.json(error)
->>>>>>> 13502901cf647cbe82d923736447716efc301499
   }
 });
 
