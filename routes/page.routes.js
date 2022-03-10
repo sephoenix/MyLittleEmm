@@ -38,13 +38,13 @@ router.get('/:pageId', async (req, res, next) => {
   try {
     const page = await Page.findById(pageId).populate('diary');
     console.log(page);
-    res.status(200).json(page)
-  } catch(error){
-    res.json(error)
+    res.status(200).json(page);
+  } catch (error) {
+    res.json(error);
   }
 });
 
-router.put('/:pageId/edit', async (req, res, next) => {
+router.put('/:pageId/edit', isAuthenticated, async (req, res, next) => {
   const { pageId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(pageId)) {
     res.status(400).json({ message: 'This page doesnt exists' });
@@ -58,7 +58,7 @@ router.put('/:pageId/edit', async (req, res, next) => {
   }
 });
 
-router.delete('/:pageId/delete', async (req, res, next) => {
+router.delete('/:pageId/delete', isAuthenticated, async (req, res, next) => {
   const { pageId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(pageId)) {

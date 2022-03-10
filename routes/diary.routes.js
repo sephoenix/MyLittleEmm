@@ -54,7 +54,7 @@ router.put('/:diaryId/edit', isAuthenticated, async (req, res, next) => {
   }
 });
 
-router.delete('/:diaryId/delete', async (req, res, next) => {
+router.delete('/:diaryId/delete', isAuthenticated, async (req, res, next) => {
   const { diaryId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(diaryId)) {
     res.status(400).json({ message: 'This diary doesnt exists' });
