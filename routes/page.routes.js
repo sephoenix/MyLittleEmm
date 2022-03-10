@@ -7,10 +7,9 @@ const Diary = require('../models/Diary.model');
 const Page = require('../models/Page.model');
 
 router.post('/add', async (req, res, next) => {
-  const { diaryId } = req.params;
   const { date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, content } = req.body;
   try {
-    const newPage = await Page.create({ date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, diary: diaryId, content });
+    const newPage = await Page.create({ date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, /* diary: diaryId, */ content });
     console.log('New page backend', newPage);
     res.status(201).json(newPage);
   } catch (error) {
@@ -21,7 +20,7 @@ router.post('/add', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
   const { pageId } = req.params;
   try {
-    const pages = await Page.find({ pageId }).populate('diary');
+    const pages = await Page.find(pageId).populate('diary');
     res.json(pages);
   } catch (e) {
     res.json(e);
@@ -66,6 +65,7 @@ router.delete('/:pageId/delete', async (req, res, next) => {
   }
   try {
     await Page.findByIdAndDelete(pageId);
+    res.json({ message: 'Page eliminated' });
   } catch (error) {
     res.json(error);
   }

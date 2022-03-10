@@ -40,7 +40,7 @@ router.get('/:diaryId', async (req, res, next) => {
   }
 });
 
-router.put('/:diaryId/edit', async (req, res, next) => {
+router.put('/:diaryId/edit', isAuthenticated, async (req, res, next) => {
   const { diaryId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(diaryId)) {
     res.status(400).json({ message: 'This diary doesnt exists' });
