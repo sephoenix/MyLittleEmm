@@ -27,18 +27,32 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
 router.get('/:pageId', async (req, res, next) => {
   const { pageId } = req.params;
 
+=======
+router.get('/pages/:pageId', async (req, res, next) => {
+  const { pageId } = req.params;
+  // const { diaryId } = req.params;
+>>>>>>> 13502901cf647cbe82d923736447716efc301499
   if (!mongoose.Types.ObjectId.isValid(pageId)) {
     res.status(400).json({ message: 'This page doesnt exists' });
     return;
   }
   try {
+<<<<<<< HEAD
     const page = await Page.findById(pageId);
     res.status(200).json(page);
   } catch (error) {
     res.json(error);
+=======
+    const page = await Page.findById(pageId).populate('diary');
+    console.log(page);
+    res.status(200).json(page)
+  } catch(error){
+    res.json(error)
+>>>>>>> 13502901cf647cbe82d923736447716efc301499
   }
 });
 
