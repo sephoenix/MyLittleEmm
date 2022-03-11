@@ -1,24 +1,13 @@
-const { response } = require('express');
 const express = require('express');
+const router = express.Router();
 const mongoose = require('mongoose');
 const { isAuthenticated } = require('../middleware/jwt.middleware');
 const User = require('../models/User.model');
-const router = require('./page.routes');
 
 router.get('/', async (req, res, next) => {
   try {
     const user = await User.find();
     res.json(user);
-  } catch (error) {
-    res.json(error);
-  }
-});
-
-router.get('/:userId', async (req, res, next) => {
-  const userId = req.params;
-  try {
-    const user = await User.findById(userId);
-    res.status(200).json(user);
   } catch (error) {
     res.json(error);
   }
