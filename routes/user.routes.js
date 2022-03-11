@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.put('/:userId/edit', isAuthenticated, async (req, res, next) => {
+router.put('/edit', isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
   try {
     const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
