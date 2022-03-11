@@ -19,9 +19,8 @@ router.post('/add', isAuthenticated, async (req, res, next) => {
 });
 
 router.get('/', async (req, res, next) => {
-  const { pageId } = req.params;
   try {
-    const pages = await Page.find(pageId).populate('diary');
+    const pages = await Page.find().populate('diary');
     res.json(pages);
   } catch (e) {
     res.json(e);

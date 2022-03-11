@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const { isAuthenticated } = require('../middleware/jwt.middleware');
 
 const Diary = require('../models/Diary.model');
-const Page = require('../models/Page.model');
 
 router.post('/', isAuthenticated, async (req, res, next) => {
   const { name } = req.body;
