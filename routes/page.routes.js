@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const { isAuthenticated } = require('../middleware/jwt.middleware');
+const fileUploader = require('../config/cloudinary.config');
 
 const Diary = require('../models/Diary.model');
 const Page = require('../models/Page.model');
@@ -18,6 +19,15 @@ router.post('/add', isAuthenticated, async (req, res, next) => {
   }
 });
 
+router.post('/upload', fileUploader.single('photo'), (req, res, next) => {
+  if (!req.file) {
+    next(new Error('No file uploaded!'));
+    return;
+  }
+
+  res.json({ fileUrl: req.file.path });
+});
+
 router.get('/', async (req, res, next) => {
   try {
     const pages = await Page.find().populate('diary');
@@ -29,7 +39,6 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:pageId', async (req, res, next) => {
   const { pageId } = req.params;
-  // const { diaryId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(pageId)) {
     res.status(400).json({ message: 'This page doesnt exists' });
     return;
