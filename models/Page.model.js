@@ -9,7 +9,6 @@ const pageSchema = new Schema({
   babyWeight: String,
   babyHeight: String,
   photo: String,
-  isPublic: Boolean,
   content: { type: String },
 });
 

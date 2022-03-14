@@ -69,7 +69,6 @@ Page model
     babyWeight: Number,
     babyHeight: Number,
     photo: String,
-    isPublic: String, enum: [ 'Yes', 'No'],
 }
 ```
 

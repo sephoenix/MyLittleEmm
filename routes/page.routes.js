@@ -8,10 +8,10 @@ const Diary = require('../models/Diary.model');
 const Page = require('../models/Page.model');
 
 router.post('/add', isAuthenticated, async (req, res, next) => {
-  const { date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, content, diary } = req.body;
+  const { date, type, whoWrites, babyWeight, babyHeight, photo, content, diary } = req.body;
   const diaryId = mongoose.Types.ObjectId(diary);
   try {
-    const newPage = await Page.create({ date, type, whoWrites, babyWeight, babyHeight, photo, isPublic, diary: diaryId, content });
+    const newPage = await Page.create({ date, type, whoWrites, babyWeight, babyHeight, photo, diary: diaryId, content });
     console.log('New page backend', newPage);
     res.status(201).json(newPage);
   } catch (error) {
@@ -31,6 +31,16 @@ router.post('/upload', fileUploader.single('photo'), (req, res, next) => {
 router.get('/', async (req, res, next) => {
   try {
     const pages = await Page.find().populate('diary');
+    res.json(pages);
+  } catch (e) {
+    res.json(e);
+  }
+});
+
+router.get('/diary/:diaryId', async (req, res, next) => {
+  const { diaryId } = req.params;
+  try {
+    const pages = await Page.find({ diary: diaryId }).populate('diary');
     res.json(pages);
   } catch (e) {
     res.json(e);
