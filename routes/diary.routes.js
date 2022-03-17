@@ -25,6 +25,15 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/myDiaries', isAuthenticated, async (req, res, next) => {
+  const userId = req.payload._id;
+  try {
+    const diaries = await Diary.find({ owner: userId });
+    res.status(201).json(diaries);
+  } catch (error) {
+    res.json(error);
+  }
+});
 router.get('/:diaryId', async (req, res, next) => {
   const { diaryId } = req.params;
   if (!mongoose.Types.ObjectId.isValid(diaryId)) {

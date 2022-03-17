@@ -12,7 +12,6 @@ router.post('/add', isAuthenticated, async (req, res, next) => {
   const diaryId = mongoose.Types.ObjectId(diary);
   try {
     const newPage = await Page.create({ date, type, whoWrites, babyWeight, babyHeight, photo, diary: diaryId, content });
-    console.log('New page backend', newPage);
     res.status(201).json(newPage);
   } catch (error) {
     res.status(500).json(error);
@@ -55,7 +54,6 @@ router.get('/:pageId', async (req, res, next) => {
   }
   try {
     const page = await Page.findById(pageId).populate('diary');
-    console.log(page);
     res.status(200).json(page);
   } catch (error) {
     res.json(error);
