@@ -89,4 +89,15 @@ router.delete('/:pageId/delete', isAuthenticated, async (req, res, next) => {
   }
 });
 
+router.delete('/diaries/:diaryId/delete', isAuthenticated, async (req, res, next) => {
+  const { diaryId } = req.params;
+
+  try {
+    await Page.deleteMany({ diary: diaryId });
+    res.json({ message: 'Pages eliminated' });
+  } catch (error) {
+    res.json(error);
+  }
+});
+
 module.exports = router;
