@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const { isAuthenticated } = require('../middleware/jwt.middleware');
 
 const Diary = require('../models/Diary.model');
+const Page = require('../models/Page.model');
 
 router.post('/', isAuthenticated, async (req, res, next) => {
   const { name } = req.body;
@@ -69,6 +70,7 @@ router.delete('/:diaryId/delete', isAuthenticated, async (req, res, next) => {
     return;
   }
   try {
+    await Page.deleteMany({ diary: diaryId });
     await Diary.findByIdAndDelete(diaryId);
     res.json({ message: `Diary with ${diaryId} is removed successfully` });
   } catch (error) {
