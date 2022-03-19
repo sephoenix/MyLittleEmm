@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const { isAuthenticated } = require('../middleware/jwt.middleware');
+const DiaryModel = require('../models/Diary.model');
 const User = require('../models/User.model');
+const Diary = require('../models/Diary.model');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -30,6 +32,7 @@ router.delete('/:userId/delete', isAuthenticated, async (req, res, next) => {
     return;
   }
   try {
+    await Diary.deleteMany({ owner: userId });
     await User.findByIdAndDelete(userId).then(() => res.json({ message: `User with ${userId} is removed successfully` }));
   } catch (error) {
     res.json(error);
